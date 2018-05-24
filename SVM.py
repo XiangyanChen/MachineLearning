@@ -3,7 +3,7 @@ import numpy as np
 def loadDataSet():  #加载文件
     data = list()
     labels = list()
-    with open('svm/testSet.txt') as f:
+    with open('/files/svm/testSet.txt') as f:
         lines = f.readlines()
         for line in lines:
             line = line.rstrip().split('\t')
