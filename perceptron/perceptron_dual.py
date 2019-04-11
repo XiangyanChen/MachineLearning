@@ -1,8 +1,7 @@
 # --*-- coding:utf:8 --*--
 import numpy as np
 
-
-class Perceptron:  # 感知机
+class PerceptronDual:  # 感知机
     def __init__(self, dataSet, labels):  # 初始化数据集和标签
         self.dataSet = np.array(dataSet)
         self.labels = np.array(labels).transpose()
@@ -13,7 +12,7 @@ class Perceptron:  # 感知机
         bias = 0
         flag = False
         Gram = np.zeros((m, m))
-        for i in range(m):  # 计算Gram矩阵
+        for i in range(m):  # 计算Gram矩阵 gram matrix
             for j in range(m):
                 Gram[i][j] = dataSet[i] * np.mat(dataSet[j]).transpose()
         print(Gram)
@@ -44,6 +43,6 @@ if __name__ == '__main__':
                [4, 3],
                [1, 1]]
     labels = [1, 1, -1]
-    perceptron = Perceptron(dataSet, labels)  # 创建一个感知机对象
+    perceptron = PerceptronDual(dataSet, labels)  # 创建一个感知机对象
     weights, bias = perceptron.train()  # 训练
-    print("结果是:%s, %s" % (weights, bias))
+    print("result is :%s, %s" % (weights, bias))
