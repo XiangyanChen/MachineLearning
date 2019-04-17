@@ -3,8 +3,8 @@ import numpy as np
 
 class PerceptronDual:  # 感知机
     def __init__(self, dataSet, labels):  # 初始化数据集和标签
-        self.dataSet = np.array(dataSet)
-        self.labels = np.array(labels).transpose()
+        self._dataSet = np.array(dataSet)
+        self._labels = np.array(labels).transpose()
 
     def train(self):
         m, n = np.shape(self.dataSet)  # m是行和n是列
@@ -37,6 +37,14 @@ class PerceptronDual:  # 感知机
             return 1
         else:
             return -1
+
+    @property
+    def dataSet(self):
+        return self._dataSet
+
+    @property
+    def labels(self):
+        return self._labels
 
 if __name__ == '__main__':
     dataSet = [[3, 3],
