@@ -1,7 +1,6 @@
 #-*-coding:utf-8-*-
 import numpy as np
 import math
-import json
 class Node: #结点
     def __init__(self, data = None, lchild = None, rchild = None):
         self.data = data
@@ -19,7 +18,7 @@ class DecisionTree: #决策树
         def create_branch(dataSet, feature_set):
             label = [row[-1] for row in dataSet]    #按列读取标签
             node = Node()
-            # TODO:算法(2)
+            # 算法(2)
             if (len(set(label)) == 1):   #this means this dataset needn't split
                 node.data = label[0]
                 node.child = None
@@ -31,17 +30,15 @@ class DecisionTree: #决策树
                 g_DA = HD - self.conditional_entropy(dataSet, key, feature_set)  #当前按i维特征划分的信息增益
                 if option=="C4.5":
                     g_DA = g_DA / float(self.entropy(dataSet, key))   #这行注释掉,就是用ID3算法了，否则就是C4.5算法
-                # print(gDA)
                 if (max_ga < g_DA):
                     max_ga = g_DA
                     max_ga_key = key
-            #TODO:算法(4)
+            #算法(4)
             node.data = labels[max_ga_key]
             sub_feature_set = feature_set.copy()
             del sub_feature_set[max_ga_key]#删除特征集（不再作为划分依据）
             for x in feature_set[max_ga_key]:  #这里是计算出信息增益后，知道了需要按哪一维进行划分集合
                 sub_data_set = [row for row in dataSet if row[max_ga_key] == x] #这个可以得出数据子集
-                # print(json.dumps(subDataSet,encoding='UTF-8',ensure_ascii=False))
                 node.child[x] = create_branch(sub_data_set, sub_feature_set)    #continue to split the sub data set
             return node
         return create_branch(dataSet, feature_set)
@@ -61,7 +58,6 @@ class DecisionTree: #决策树
                     if x == key:
                         node = node.child[key]
             else:
-                # print node.data
                 break
         return node.data
 
@@ -89,20 +85,11 @@ class DecisionTree: #决策树
         """
         value_list = [row[feature_key] for row in dataSet] #get the value by axis
         feature_set = set(value_list)  #range of this axis
-        # k = len(labelSet)    #有k个类别，此次数据集中只有2个类别，“是”和“否”
         entropy = 0
         for x in feature_set:  #iterate every
             p = value_list.count(x) / float(len(value_list))
             entropy -= p * math.log(p, 2)   #entropy=-p(log(p))
         return entropy
-
-    # def pre_order(self, node, depth = 0):   #先序遍历
-    #     if (node != None):
-    #         # print(node.data, depth)
-    #         if (node.child != None):
-    #             for key in node.child:
-    #                 # print(key)
-    #                 self.pre_order(node.child[key], depth + 1)
 
 if __name__ == "__main__":
     dataSet = [['青年', '否', '否', '一般', '否'],
