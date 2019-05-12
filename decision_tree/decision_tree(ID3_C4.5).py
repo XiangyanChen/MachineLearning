@@ -18,7 +18,7 @@ class DecisionTree: #决策树
         def create_branch(dataSet, feature_set):
             label = [row[-1] for row in dataSet]    #按列读取标签
             node = Node()
-            # 算法(2)
+            # TODO:算法(2)
             if (len(set(label)) == 1):   #this means this dataset needn't split
                 node.data = label[0]
                 node.child = None
@@ -33,7 +33,7 @@ class DecisionTree: #决策树
                 if (max_ga < g_DA):
                     max_ga = g_DA
                     max_ga_key = key
-            #算法(4)
+            #TODO:算法(4)
             node.data = labels[max_ga_key]
             sub_feature_set = feature_set.copy()
             del sub_feature_set[max_ga_key]#删除特征集（不再作为划分依据）
