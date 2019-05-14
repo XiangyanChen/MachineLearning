@@ -16,6 +16,10 @@ CSDN博客主页：https://blog.csdn.net/tudaodiaozhale
 (decision_tree/decision_tree(ID3_C4.5).py) 决策树之ID3&C4.5 https://blog.csdn.net/tudaodiaozhale/article/details/77430134  
 ## 第6章 逻辑斯的回归与最大熵模型  
 (logistic/logistic.py) 逻辑斯蒂回归 https://blog.csdn.net/tudaodiaozhale/article/details/77532135  
+## 第7章 支持向量机
+(svm/svm.py) 支持向量机 https://blog.csdn.net/tudaodiaozhale/article/details/77599620  
+## 第8章 提升算法
+(adaboost/adaboost.py) Adaboost算法 https://blog.csdn.net/tudaodiaozhale/article/details/78083942  
 ## 第10章 逻辑斯的回归与最大熵模型  
 (hmm/hmm.py) 隐马尔科夫模型 https://blog.csdn.net/tudaodiaozhale/article/details/80160956  
 
