@@ -83,7 +83,7 @@ class RNN:
             output[t] = ak #把index写进去
         return hidden, output
 
-    def backPropagation(self, data, label, alpha = 0.002):  #反向传播
+    def backPropagation(self, data, label, alpha = 0.0002):  #反向传播
         hidden, output = self.forward(data)  #(N, 6000)
         T = len(output) #时间长度=词向量的长度
         deltaHPre = np.zeros((self.hiddenDim, 1))   #前一时刻的隐含层偏导
