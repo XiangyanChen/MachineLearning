@@ -2,7 +2,7 @@ import nltk
 from collections import Counter
 import numpy as np
 
-def getVocab(filename='files/rnn/poetry.txt'):
+def getVocab(filename='dataset/poetry.txt'):
     with open(filename, encoding='utf-8') as f:
         lines = f.readlines()   #读取每一行
         wordFreqDict = dict()   #将每个词都进行词频计算,取词频高的前多少词用来做词典
@@ -10,12 +10,12 @@ def getVocab(filename='files/rnn/poetry.txt'):
             tokens = dict(nltk.FreqDist(list(line)))    #分词，并且计算词频
             wordFreqDict = dict(Counter(wordFreqDict) + Counter(tokens))    #把每个词的词频相加
         wordFreqTuple = sorted(wordFreqDict.items(), key = lambda x: x[1], reverse=True)    #按词频排序，逆排序
-        fw = open('files/rnn/vocab.txt','w', encoding='utf-8')    #将词典的每个词（这里是每个字作为一个词）写入到文件
+        fw = open('dataset/vocab.txt','w', encoding='utf-8')    #将词典的每个词（这里是每个字作为一个词）写入到文件
         vocab = wordFreqTuple[:8000]    #词典
         for word in vocab:
             fw.write(word[0] + '\n')
 
-def readVocab(filename = 'files/rnn/vocab.txt'):
+def readVocab(filename = 'dataset/vocab.txt'):
     vocab = list()
     fr = open(filename, 'r', encoding='utf-8')
     lines = fr.readlines()
@@ -30,7 +30,7 @@ def readVocab(filename = 'files/rnn/vocab.txt'):
     vocab.insert(2, 'END')
     return vocab[:6000]
 
-def loadData(filename = 'files/rnn/poetry.txt'):
+def loadData(filename = 'dataset/poetry.txt'):
     vocab = readVocab() #获取词典，词典是以['词', '典']这样存放的，类似这样
     word2Index = {word: index for index, word in enumerate(vocab)}  #将词典映射成{词:0, 典:1}，类似这样
     fr = open(filename, 'r', encoding='utf-8')  #读取文件，准备数据集

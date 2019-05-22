@@ -38,8 +38,8 @@ class Softmax:
 
 if __name__ == '__main__':
     softmax = Softmax()
-    trainDigits, trainLabels = softmax.loadData('files/softmax/trainingDigits')
-    testDigits, testLabels = softmax.loadData('files/softmax/testDigits')
+    trainDigits, trainLabels = softmax.loadData('dataset/trainingDigits')
+    testDigits, testLabels = softmax.loadData('dataset/testDigits')
     softmax.train(trainDigits, trainLabels, maxIter=100) #训练
     accuracy = 0
     N = len(testDigits) #总共多少测试样本
