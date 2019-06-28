@@ -21,7 +21,7 @@ CSDN博客主页：https://blog.csdn.net/tudaodiaozhale
 (svm/svm.py) 支持向量机 https://blog.csdn.net/tudaodiaozhale/article/details/77599620  
 ## 第8章 提升算法
 (adaboost/adaboost.py) Adaboost算法 https://blog.csdn.net/tudaodiaozhale/article/details/78083942  
-## 第10章 逻辑斯的回归与最大熵模型  
+## 第10章 隐马尔科夫模型  
 (hmm/hmm.py) 隐马尔科夫模型 https://blog.csdn.net/tudaodiaozhale/article/details/80160956  
 ## 额外
 (softmax/softmax.py) Softmax回归 https://blog.csdn.net/tudaodiaozhale/article/details/80432552  
