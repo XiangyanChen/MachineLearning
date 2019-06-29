@@ -1,56 +1,54 @@
-# --*-- coding:utf:8 --*--
+"""
+This code was done by FlameCharmander
+which is published in https://github.com/FlameCharmander/MachineLearning
+everyone is welcome to contact me via 13030880@qq.com
+"""
+
 import numpy as np
 
-class PerceptronDual:  # 感知机
-    def __init__(self, dataSet, labels):  # 初始化数据集和标签
-        self._dataSet = np.array(dataSet)
-        self._labels = np.array(labels).transpose()
+class PerceptronDual:
+    def __init__(self):
+        self.weights = None
+        self.bias = None
 
-    def train(self):
-        m, n = np.shape(self.dataSet)  # m是行和n是列
-        weights = np.zeros(n)
+    def sign(self, x):  # sign function
+        return 1 if x >= 0 else -1
+
+    def train(self, data_set, labels):
+        lr = 1
+        n = np.array(data_set).shape[0] #n means rows
+        data_set = np.mat(data_set)
+        alpha = np.zeros(n) #alpha means the total iteration of wrong point
         bias = 0
-        flag = False
-        Gram = np.zeros((m, m))
-        for i in range(m):  # 计算Gram矩阵 gram matrix
-            for j in range(m):
-                Gram[i][j] = dataSet[i] * np.mat(dataSet[j]).transpose()
-        print(Gram)
-        a = np.zeros(m)
-        while flag != True:
-            flag = True
-            for i in range(m):  # 遍历样本
-                sum = 0
-                for j in range(m):  # 求误分条件
-                    sum += a[j] * self.labels[j] * Gram[j][i]
-                sum += bias
-                if (sum * self.labels[i] <= 0):
-                    a[i] += 1
-                    bias += self.labels[i]
-                    flag = False
-        for i in range(m):
-            weights += a[i] * self.dataSet[i] * self.labels[i]
-        return weights, bias
+        i = 0
+        while i < n:
+            #in this step, we elide gram matrix
+            if (labels[i] * self.sign(sum(alpha * labels * data_set * data_set[i].T)+bias) == -1):
+                alpha[i] = alpha[i] + lr
+                bias = bias + lr * labels[i]
+                i = 0
+            else:
+                i += 1
+        self.weights = sum(alpha * labels * data_set)
+        self.bias = bias
 
-    def sign(self, y):  # 符号函数
-        if (y > 0):
-            return 1
+    def predict(self, data):
+        data = np.array([data])
+        if (self.weights is not None and self.bias is not None):
+            return self.sign((self.weights * data.T) + self.bias)
         else:
-            return -1
-
-    @property
-    def dataSet(self):
-        return self._dataSet
-
-    @property
-    def labels(self):
-        return self._labels
+            return 0
 
 if __name__ == '__main__':
-    dataSet = [[3, 3],
-               [4, 3],
-               [1, 1]]
+    """
+            this code is corresponding to algorithm(2.1) in P29
+        """
+    data_set = [[3, 3],
+                [4, 3],
+                [1, 1]]
     labels = [1, 1, -1]
-    perceptron = PerceptronDual(dataSet, labels)  # 创建一个感知机对象
-    weights, bias = perceptron.train()  # 训练
-    print("result is :%s, %s" % (weights, bias))
+    perceptron = PerceptronDual()
+    perceptron.train(data_set, labels)
+    print(perceptron.weights)
+    result = perceptron.predict([1, 1])
+    print(result)

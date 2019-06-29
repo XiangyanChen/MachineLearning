@@ -1,5 +1,5 @@
 """
-This code is done by FlameCharmander
+This code was done by FlameCharmander
 which is published in https://github.com/FlameCharmander/MachineLearning
 everyone is welcome to contact me via 13030880@qq.com
 """
@@ -14,7 +14,7 @@ class Perceptron:
         return 1 if value >= 0 else -1
 
     def train(self, data_set, labels):  #used to train
-        alpha = 1    #learning rate
+        lr = 1    #learning rate
         data_set = np.array(data_set)
         n = data_set.shape[0]   #n rows
         m = data_set.shape[1]   #m cols
@@ -23,8 +23,8 @@ class Perceptron:
         i = 0
         while i < n:
             if (labels[i] * self.sign(np.dot(weights, data_set[i]) + bias) == -1):   #it means this point is wrong
-                weights = weights + alpha * labels[i] * data_set[i] #update weights, this is corresponding to (2.6) in P28
-                bias = bias + alpha * labels[i] ##update bias, this is corresponding to (2.6)
+                weights = weights + lr * labels[i] * data_set[i] #update weights, this is corresponding to (2.6) in P28
+                bias = bias + lr * labels[i] ##update bias, this is corresponding to (2.6)
                 i = 0
             else:
                 i += 1
@@ -32,7 +32,11 @@ class Perceptron:
         self.bias = bias
 
     def predict(self, data):    #used to predict
-        return self.sign(np.dot(self.weights, data) + self.bias)
+        if (self.weights is not None and self.bias is not None):
+            return self.sign(np.dot(self.weights, data) + self.bias)
+        else:
+            return 0
+
 
 if __name__ == "__main__":
     """
@@ -44,7 +48,7 @@ if __name__ == "__main__":
     labels = [1, 1, -1]
     perceptron = Perceptron()
     perceptron.train(data_set, labels)
-    print(perceptron.weights)
-    print(perceptron.bias)
+    print("weights is:", perceptron.weights)
+    print("bias is:", perceptron.bias)
     result = perceptron.predict([3, 3])
-    print(result)
+    print("prediction:", result)
