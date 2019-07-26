@@ -1,10 +1,10 @@
 """
-This code was done by FlameCharmander
-which is published in https://github.com/FlameCharmander/MachineLearning
-and my csdn blog is https://blog.csdn.net/tudaodiaozhale
-everyone is welcome to contact me via 13030880@qq.com
+This is the implementation of PerceptronDual,
+which is accessible in https://github.com/FlameCharmander/MachineLearning,
+accomplished by FlameCharmander,
+and my csdn blog is https://blog.csdn.net/tudaodiaozhale,
+contact me via 13030880@qq.com.
 """
-
 import numpy as np
 
 class PerceptronDual:

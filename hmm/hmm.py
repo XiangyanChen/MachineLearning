@@ -1,3 +1,10 @@
+"""
+This is the implementation of HiddenMarkov,
+which is accessible in https://github.com/FlameCharmander/MachineLearning,
+accomplished by FlameCharmander,
+and my csdn blog is https://blog.csdn.net/tudaodiaozhale,
+contact me via 13030880@qq.com.
+"""
 #--*-- coding:utf-8
 
 import numpy as np

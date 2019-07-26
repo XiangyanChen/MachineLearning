@@ -1,6 +1,11 @@
+"""
+This is the implementation of Bayes(Bayes Estimate),
+which is accessible in https://github.com/FlameCharmander/MachineLearning,
+accomplished by FlameCharmander,
+and my csdn blog is https://blog.csdn.net/tudaodiaozhale,
+contact me via 13030880@qq.com.
+"""
 # coding:utf-8
-# Designed by Chen
-# 2017-8-19
 import numpy as np
 class bayes:
     def __init__(self, lamb = 1):
