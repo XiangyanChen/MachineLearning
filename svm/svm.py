@@ -1,5 +1,5 @@
 import numpy as np
-
+from sklearn import svm
 def loadDataSet():  #加载文件
     data = list()
     labels = list()
@@ -22,31 +22,32 @@ class SVM:
         b = 0   #偏置
         C = 1 #惩罚系数
         flag = True    #检验是否全部都满足KKT条件
-        maxIter = 100 #最大循环次数
+        maxIter = 500 #最大循环次数
         iter = 0
         N = len(dataSet)   #数据的行数
         M = len(dataSet[0])    #数据的列数，维数
         alpha = np.zeros(N)
         while iter < maxIter:
-            print(iter)
+            if (iter % 10 == 0):
+                print(iter)
             iter += 1
             flag = False
             for i in range(N):  #外循环
-                alpha1old = alpha[i].copy()   #未更新的alpha,也就是alpha_old
+                alpha1_old = alpha[i].copy()   #未更新的alpha,也就是alpha_old
                 y1 = labels[i]  #y1
                 data1 = dataSet[i]
                 g1 = self.calcG(alpha, labels, data1, dataSet, b)
                 alphaIndex1 = -1    #存储不满足KKT条件的alphaIndex1
-                if alpha1old == 0:   #判断是否满足KKT条件 (7.111)
+                if alpha1_old == 0:   #判断是否满足KKT条件 (7.111)
                     if y1 * g1 < 1:
                         alphaIndex1 = i
                         flag = True
-                if alpha1old > 0 and alpha[i] < C:   #(7.112)
+                if alpha1_old > 0 and alpha[i] < C:   #(7.112)
                     if y1 * g1 != 1:
                         alphaIndex1 = i
                         flag = True
-                if alpha1old == C:   #(7.1132)
-                    if y1 * g1 <= 1:
+                if alpha1_old == C:   #(7.1132)
+                    if y1 * g1 > 1:
                         alphaIndex1 = i
                         flag = True
                 if alphaIndex1 == -1:   #说明满足KKT条件，继续下一次循环来找alpha1
@@ -80,11 +81,11 @@ class SVM:
                 data2 = dataSet[alphaIndex2]
                 E2 = selectedE2
                 if (y1 == y2):  #alpha2取值范围必须限制在L<alpha2<H
-                    L = np.maximum(0, alpha2old - alpha1old)  # L
-                    H = np.minimum(C, C + alpha2old - alpha1old)  #H
+                    L = np.maximum(0, alpha2old - alpha1_old)  # L
+                    H = np.minimum(C, C + alpha2old - alpha1_old)  #H
                 else:
-                    L = np.maximum(0, alpha2old + alpha1old - C)  # L
-                    H = np.minimum(C, C + alpha2old + alpha1old)    #H
+                    L = np.maximum(0, alpha2old + alpha1_old - C)  # L
+                    H = np.minimum(C, C + alpha2old + alpha1_old)    #H
                 eta = self.calcK(data1, data1) + self.calcK(data2, data2) - 2 * self.calcK(data1, data2)
                 if eta == 0:    #没法选
                     continue
@@ -95,15 +96,15 @@ class SVM:
                     alpha[alphaIndex2] = L
                 else:
                     alpha[alphaIndex2] = alpha2new
-                alpha1new = alpha1old * y1 * y2 * (alpha2old - alpha2new)   #(7.109)
+                alpha1new = alpha1_old * y1 * y2 * (alpha2old - alpha2new)   #(7.109)
                 alpha[alphaIndex1] = alpha1new
-                b1new = -E1 - y1 * self.calcK(data1, data1) * (alpha1new - alpha1old) - y2 * self.calcK(data2, data1) * (alpha2new - alpha2old) + b #(7.115)
-                b2new = -E2 - y1 * self.calcK(data1, data1) * (alpha1new - alpha1old) - y2 * self.calcK(data2, data2) * (alpha2new - alpha2old) + b #(7.116)
-                if (alpha1new > 0 and alpha1new < C):
+                b1new = -E1 - y1 * self.calcK(data1, data1) * (alpha1new - alpha1_old) - y2 * self.calcK(data2, data1) * (alpha2new - alpha2old) + b #(7.115)
+                b2new = -E2 - y1 * self.calcK(data1, data2) * (alpha1new - alpha1_old) - y2 * self.calcK(data2, data2) * (alpha2new - alpha2old) + b #(7.116)
+                if (alpha1new > 0 and alpha1new < C and alpha2new > 0 and alpha2new < C):
                     b = b1new
                 else:
                     b = (b1new + b2new) / 2
-        print(alpha)
+        # print(alpha)
         weights = np.dot(np.multiply(alpha, labels), dataSet)   #权重
         return weights, b
 
@@ -117,7 +118,18 @@ class SVM:
         return sum + b
 
 if __name__ == '__main__':
+    clf = svm.SVC(kernel='linear', C=1.0)  # class
+
+
     dataSet, labels = loadDataSet()
+    clf.fit(dataSet, labels)  # training the svc model
+    w = clf.coef_[0]
+    print("w = ", end='')
+    print(w)
+    print("b = ", end='')
+    print(clf.intercept_)
+
+
     svm = SVM()
     weights, b = svm.train(dataSet, labels)
     print(weights, b)
